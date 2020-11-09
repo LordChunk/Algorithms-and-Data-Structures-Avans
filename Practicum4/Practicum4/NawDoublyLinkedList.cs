@@ -29,7 +29,7 @@ namespace Alg1.Practica.Practicum4
 
         public NAW ItemAtIndex(int index)
         {
-            int i = 0;
+            var i = 0;
             var link = First;
             do
             {
@@ -46,14 +46,67 @@ namespace Alg1.Practica.Practicum4
             return null;
         }
 
-        public DoubleLink SwapLinkWithNext(DoubleLink link)
+        public DoubleLink SwapLinkWithNext(DoubleLink linkI)
         {
-            throw new System.NotImplementedException();
+            var linkJ = linkI.Next;
+
+            if (linkJ == null) return null;
+
+            var linkH = linkI.Previous;
+            var linkK = linkJ.Next;
+
+            if (First == linkI)
+            {
+                First = linkJ;
+            }
+
+            if (linkH != null)
+            {
+                linkH.Next = linkJ;
+            }
+
+            linkJ.Previous = linkH;
+            linkJ.Next = linkI;
+            linkI.Previous = linkJ;
+            linkI.Next = linkK;
+
+            if (linkK != null)
+            {
+                linkK.Previous = linkI;
+            }
+
+            if (Last == linkJ)
+            {
+                Last = linkI;
+            }
+
+            return linkJ;
         }
 
         public void BubbleSort()
         {
-            throw new System.NotImplementedException();
+            var tmpLast = Last;
+
+            do
+            {
+                var itemMoved = false;
+
+                var tmpFirst = First;
+
+                while (tmpFirst.Next != null && tmpFirst != tmpLast)
+                {
+                    if (tmpFirst.Naw.CompareTo(tmpFirst.Next.Naw) == 1)
+                    {
+                        SwapLinkWithNext(tmpFirst);
+                        tmpFirst = tmpFirst.Previous;
+                        itemMoved = true;
+                    }
+
+                    tmpFirst = tmpFirst.Next;
+                }
+
+                if (!itemMoved) break;
+            } while (tmpLast.Previous != null);
         }
 
         public BigO OrderOfBubbleSort()

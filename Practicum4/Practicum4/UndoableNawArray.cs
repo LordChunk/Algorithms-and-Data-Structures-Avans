@@ -1,3 +1,5 @@
+using System;
+using System.Runtime.Remoting.Messaging;
 using Alg1.Practica.Practicum1;
 using Alg1.Practica.Utils.Models;
 
@@ -41,12 +43,22 @@ namespace Alg1.Practica.Practicum4
 
         public void Undo()
         {
-            throw new System.NotImplementedException();
+            if (Current == null) return;
+            ReverseOperation(Current);
+
+            Current = Current.Previous;
         }
 
         public void Redo()
         {
-            throw new System.NotImplementedException();
+            if (Current.Next == null || First == null || First == Current)
+            {
+                return;
+            }
+
+            ApplyOperation(Current.Next);
+
+            Current = Current.Next;
         }
 
         private void AddOperation(Operation operation, NAW naw)
